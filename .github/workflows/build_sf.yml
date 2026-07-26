@@ -33,8 +33,8 @@ jobs:
       - name: Setup ErfanGSIs Tools
         run: |
           git clone "${{ steps.config.outputs.tool_repo }}" ErfanGSIs
-          pip install pycryptodome
           sed -i 's/pycrypto/pycryptodome/g' ErfanGSIs/requirements.txt 2>/dev/null || true
+          pip install pycryptodome
           sudo bash ErfanGSIs/setup.sh
           sed -i '$d' ErfanGSIs/url2GSI.sh
       - name: Build AB,AOnly
