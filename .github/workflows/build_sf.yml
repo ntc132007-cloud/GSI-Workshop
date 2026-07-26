@@ -30,13 +30,18 @@ jobs:
           required "${{ steps.config.outputs.sf_dir }}" "SF_DIR config"
           required "${{ steps.config.outputs.output_type }}" "OUTPUT_TYPE config"
 
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+         python-version: '3.10'
+
       - name: Setup ErfanGSIs Tools
         run: |
-          git clone "${{ steps.config.outputs.tool_repo }}" ErfanGSIs
-          sed -i 's/pycrypto/pycryptodome/g' ErfanGSIs/requirements.txt 2>/dev/null || true
-          pip install pycryptodome
-          sudo bash ErfanGSIs/setup.sh
-          sed -i '$d' ErfanGSIs/url2GSI.sh
+         git clone "${{ steps.config.outputs.tool_repo }}" ErfanGSIs
+         sed -i 's/pycrypto/pycryptodome/g' ErfanGSIs/requirements.txt 2>/dev/null || true
+         pip install pycryptodome
+         sudo bash ErfanGSIs/setup.sh
+         sed -i '$d' ErfanGSIs/url2GSI.sh
       - name: Build AB,AOnly
         if: ${{ steps.config.outputs.output_type == 'all' }}
         run: |
